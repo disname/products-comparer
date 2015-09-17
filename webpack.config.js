@@ -1,30 +1,41 @@
 /**
  * Created by dis_name_pc on 16.09.2015.
  */
+var StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin')
+var data = require('./js/routes-data')
+
 module.exports = {
-    entry: {
-        client:[ 'webpack-dev-server/client?http://localhost:8080','./js/components/ProductsComparer.js']
-  /*      server:"./js/server.js"*/
-    },
+    entry: './js/entry.js',
     output: {
-        publicPath: 'http://localhost:8080/',
-        filename: 'public/app.js'
+        filename: 'app.js',
+        path: __dirname,
+        libraryTarget: 'umd'
     },
     module: {
         loaders: [
             {
                 test: /\.jsx?$/,
-                loaders: ['react-hot', 'jsx', 'babel'],
-                exclude: /node_modules/,
-
+                loaders: [ 'jsx-loader', 'babel-loader'],
+                exclude: /node_modules/
             },
-            {
+          /*  {
                 test: /\.scss$/,
-                loaders: ['style', 'css', 'sass']
-            }
+                loaders: [ 'css', 'sass']
+            },*/
+            { test: /\.json$/, loader: 'json-loader' }
         ],
         resolve: {
             extensions: ['', '.js', '.jsx']
         }
-    }
+    },
+/*    node:{
+        console: 'empty',
+        fs: 'empty',
+        net: 'empty',
+        tls: 'empty'
+    },*/
+    plugins: [
+        new StaticSiteGeneratorPlugin('app.js', data.routes, data)
+    ]
+/*    target:'node'*/
 };
