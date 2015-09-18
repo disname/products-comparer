@@ -8,8 +8,18 @@ import  bodyParser from 'body-parser';
 import  request  from 'request';
 import  HtmlProcessor  from '../html_processing/html_processor';
 import routes from "../routes/core-routes";
+import q from 'q';
 const app = express();
 const jsonParser = bodyParser.json();
+var processor, allowCrossDomain, urls;
+allowCrossDomain = function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Origin,Content-Type, Accept,X-Requested-With');
+    next();
+};
+app.use(allowCrossDomain);
+app.use(express.static(__dirname + '/public'));
 app.set('views', './views');
 app.set('view engine', 'jade');
 app.get('/', function (req, res) {
@@ -19,19 +29,18 @@ app.get('/', function (req, res) {
     });
 });
 app.post('/api/load', jsonParser, function (req, res) {
-
-    var processor = new HtmlProcessor(), urls;
-
+    processor = new HtmlProcessor();
     urls = [req.body.firstUrl, req.body.secondUrl];
     if (urls) {
-        processor.processPages(urls);
+        console.log(urls);
+        processor.processPages(urls).then(function (data) {
+            console.log(data);
+            res.send(data);
+        });
     }
-
-    //  res.contentType('json');
-    //  res.send({some: JSON.stringify({response: 'json'})});
-
 });
-app.use(express.static(__dirname + '/public'));
+
+
 var server = app.listen(3000, function () {
 
 });

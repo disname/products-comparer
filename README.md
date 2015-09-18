@@ -8,3 +8,4 @@ Rendering react-views on server side
     "start": "npm run dev",
     "webpack": "webpack --display-error-details --progress --colors "*/
     /*    "static-site-generator-webpack-plugin": "^1.1.2",*/
+     //  link(rel='stylesheet', href='http://localhost:8080/public/styles/bootstrap.min.css', type='text/css')

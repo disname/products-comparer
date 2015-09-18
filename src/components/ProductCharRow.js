@@ -16,7 +16,7 @@ export default ProductCharRow;
 var React = require('react');
 var ProductCharRow = React.createClass({
     render: function(){
-        return <td>this.props.char_text</td>;
+        return (<tr><td>{this.props.name}</td><td>{this.props.specText1}</td><td>{this.props.specText2}</td></tr>);
     }
 });
 module.exports=ProductCharRow;

@@ -1,10 +1,9 @@
 /**
  * Created by dis_name_pc on 16.09.2015.
  */
-
 import React from 'react';
-var Navbar = require('react-bootstrap').Navbar;
-var Nav = require('react-bootstrap').Nav;
+var Grid = require('react-bootstrap').Grid;
+var Row = require('react-bootstrap').Row;
 var Panel = require('react-bootstrap').Panel;
 import CompareButton from  './CompareButton';
 import UrlInput from './UrlInput';
@@ -22,19 +21,19 @@ ProductComparerBar = React.createClass({
     render: function () {
         var isFixed = true, isFluid = true;
         return (
-            <Navbar fixedTop={isFixed} fluid={isFluid}>
-                <Nav className="container-fluid">
-                    <div class="row-fluid">
-                        <Panel header="Products comparer" bsStyle="primary">
-                            <div className="inputs">
-                                <UrlInput id="input_url_1" class="input_url" onChange={this.firstUrlChanged}/>
-                                <UrlInput id="input_url_1" class="input_url" onChange={this.secondUrlChanged}/>
-                            </div>
-                            <CompareButton onClick={this.handleOnClickEvent} text="Compare us"/>
-                    </Panel>
+            <Grid fluid>
+
+                <Row>
+                    <div className="inputs">
+                        <UrlInput id="input_url_1" class="input_url" onChange={this.firstUrlChanged}/>
+                        <UrlInput id="input_url_2" class="input_url" onChange={this.secondUrlChanged}/>
                     </div>
-                </Nav>
-            </Navbar>            );
+                    <CompareButton onClick={this.handleOnClickEvent} text="Compare us"/>
+                </Row>
+            </Grid>         );
+    },
+    callParetClickHandler: function (data) {
+        this.props.onCompareClick(data);
     },
     handleOnClickEvent: function (e) {
         var dataToSend = JSON.stringify(this.formData);
@@ -47,7 +46,7 @@ ProductComparerBar = React.createClass({
             cache: false,
             data: dataToSend,
             success: function (data) {
-
+                this.props.callbackParent(data);
             },
             error: function () {
 

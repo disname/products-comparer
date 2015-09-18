@@ -4,6 +4,8 @@
 var spec=function(name,text){
     this.name = name||[];
     this.text=text||'';
+    this.specText1='';
+    this.specText2='';
 };
 
 module.exports=spec;
