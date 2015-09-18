@@ -34,7 +34,7 @@ app.post('/api/load', jsonParser, function (req, res) {
     if (urls) {
         console.log(urls);
         processor.processPages(urls).then(function (data) {
-            console.log(data);
+            console.log('processed');
             res.send(data);
         });
     }

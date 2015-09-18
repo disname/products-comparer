@@ -23,7 +23,7 @@ var ProductsComparer = React.createClass({
     },
     render: function () {
         return (<Grid justified> <Row><ProductComparerBar callbackParent={this.onDataRecieved}/>
-            <ProductsTable data={this.tabledata}/> </Row></Grid>);
+            <ProductsTable products={this.tabledata}/> </Row></Grid>);
     }
 });
 module.exports = ProductsComparer;

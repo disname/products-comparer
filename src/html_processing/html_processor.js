@@ -18,10 +18,8 @@ Array.prototype.getUnique = function () {
     return a;
 };
 function findByName(source, name) {
-    console.log(source);
     for (var i = 0; i < source.length; i++) {
         if (source[i].name == name) {
-            console.log(name);
             return source[i];
         }
     }
@@ -54,7 +52,6 @@ HtmlProcessor.prototype.processPages = function (urls) {
                 });
 
         }
-        console.log(comparedProducts.specs);
         callback(comparedProducts)
     };
 
@@ -65,9 +62,6 @@ HtmlProcessor.prototype.processPages = function (urls) {
 
     q.all([loaderPromise1, loaderPromise2]).spread(function (page1, page2) {
         q.all([parser.parsePage(page1[1]), parser.parsePage(page2[1])]).spread(function (product1, product2) {
-            console.log('processor called');
-            console.log(product1);
-            console.log(product2);
             concatProducts(product1, product2,function(data){
                 console.log('called');
                 console.log(comparedProductsDefer);

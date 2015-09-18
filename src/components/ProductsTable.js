@@ -12,9 +12,10 @@ var ProductsTable = React.createClass({
     },
     render: function(){
         var data = this.state.rows;
-        this.props.products.forEach(function(product) {
+        if(this.props.products && this.props.products.specs){
+        this.props.products.specs.forEach(function(product) {
                 rows.push(<ProductCharRow name={product.name} text1={product.specText1} text2={product.specText2} />);
-        });
+        });}
         return (
             <table>
                 <thead>
@@ -24,7 +25,7 @@ var ProductsTable = React.createClass({
                     <th>Product2</th>
                 </tr>
                 </thead>
-                <tbody>{rows}</tbody>
+                <tbody>{data}</tbody>
             </table>
         );
     }
