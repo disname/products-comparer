@@ -3,35 +3,42 @@
  */
 
 import React from 'react';
+var Navbar = require('react-bootstrap').Navbar;
+var Nav = require('react-bootstrap').Nav;
+var Panel = require('react-bootstrap').Panel;
 import CompareButton from  './CompareButton';
 import UrlInput from './UrlInput';
 var ProductComparerBar;
 ProductComparerBar = React.createClass({
-    formData:{firstUrl:'',secondUrl:''},
-    firstUrlChanged:function(data)
-    {
+    formData: {firstUrl: '', secondUrl: ''},
+    firstUrlChanged: function (data) {
         console.log(data);
-        this.formData.firstUrl=data.toString();
+        this.formData.firstUrl = data.toString();
     },
-    secondUrlChanged:function(data)
-    {
+    secondUrlChanged: function (data) {
         console.log(data);
-        this.formData.secondUrl=data.toString();
+        this.formData.secondUrl = data.toString();
     },
     render: function () {
-        return (<div className="heading">
-            <h1>Products comparer</h1>
-            <section>Please type urls of products that you want to compare and click <b>Compare</b> button.</section>
-            <div className="inputs">
-            <UrlInput id="input_url_1" class="input_url" onChange={this.firstUrlChanged}/>
-                <UrlInput id="input_url_1" class="input_url" onChange={this.secondUrlChanged}/>
-            </div>
-            <CompareButton onClick={this.handleOnClickEvent} text="Compare us"/>
-        </div>);
+        var isFixed = true, isFluid = true;
+        return (
+            <Navbar fixedTop={isFixed} fluid={isFluid}>
+                <Nav className="container-fluid">
+                    <div class="row-fluid">
+                        <Panel header="Products comparer" bsStyle="primary">
+                            <div className="inputs">
+                                <UrlInput id="input_url_1" class="input_url" onChange={this.firstUrlChanged}/>
+                                <UrlInput id="input_url_1" class="input_url" onChange={this.secondUrlChanged}/>
+                            </div>
+                            <CompareButton onClick={this.handleOnClickEvent} text="Compare us"/>
+                    </Panel>
+                    </div>
+                </Nav>
+            </Navbar>            );
     },
-    handleOnClickEvent:function(e){
-        var dataToSend=JSON.stringify(this.formData);
-console.log(this.formData);
+    handleOnClickEvent: function (e) {
+        var dataToSend = JSON.stringify(this.formData);
+        console.log(this.formData);
         $.ajax({
             url: 'http://localhost:3000/api/load',
             dataType: 'json',
@@ -39,10 +46,10 @@ console.log(this.formData);
             contentType: "application/json",
             cache: false,
             data: dataToSend,
-            success: function(data) {
+            success: function (data) {
 
             },
-            error: function() {
+            error: function () {
 
             }
         });

@@ -23,6 +23,4 @@ HtmlParser.prototype.parsePage = function (page) {
      def.resolve(product);
     return  def.promise;
 };
-
-// ¬ыносит конструктор парсера в модуль
 module.exports = HtmlParser;

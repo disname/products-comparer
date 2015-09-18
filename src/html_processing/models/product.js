@@ -15,11 +15,9 @@ Product.prototype.addSpecification=function(name,text)
         this.specs.push(spec);
 }
 
-/*
 Product.prototype.getSpecifications=function()
 {
     return this.specs;
 }
-*/
 
 module.exports=Product;
