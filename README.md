@@ -1,1 +1,1 @@
-npm insatll && npm start to start application
+npm insatll && npm start to start application .After that open http://http://localhost:3000/ in your browser
