@@ -20,14 +20,18 @@ var React = require('react'), Input = require('react-bootstrap').Input,UrlInput;
             };
         },
         validationState() {
-            if (validateURl(this.state.value) ) {this.state.isValid=true; return 'success';}
-            else  {this.state.isValid=false;return 'error'};
+            var state='error';
+            if (validateURl(this.state.value) ) {this.state.isValid=true; state= 'success';}
+            else  {this.state.isValid=false;};
+            if (this.props.onChange) {
+                this.props.onChange(this.state.value,this.state.isValid);
+            }
+            return state;
         },
         _entryChanged: function (e) {
             this.setState({value: this.refs.input.getValue()});
-            if (this.props.onChange) {
-                this.props.onChange(this.state.value);
-            }
+            console.log(this.refs.input.getValue());
+
         },
 
         render: function () {
@@ -35,7 +39,8 @@ var React = require('react'), Input = require('react-bootstrap').Input,UrlInput;
                 <Input type="text"
                        bsSize="medium"
                        id={this.props.id}
-                       className={this.props.className} onChange={this._entryChanged}
+                       className={this.props.className}
+                       onChange={this._entryChanged}
                        value={this.state.value}
                        placeholder="Enter product page url"
                        label="First product url"

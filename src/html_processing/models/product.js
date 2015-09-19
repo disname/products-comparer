@@ -10,14 +10,22 @@ var Product=function(){
 };
 Product.prototype.addSpecification=function(name,text)
 {
-    var spec=new specModel(name,text);
-    if(this.specs && spec)
-        this.specs.push(spec);
-}
+    if(this.specs)
+        this.specs.push(new specModel(name,text));
+};
 
 Product.prototype.getSpecifications=function()
 {
     return this.specs;
-}
+};
+Product.prototype.findByName=function( name) {
+    var result=null;
+    for (var i = 0; i < this.specs.length; i++) {
+        if (this.specs[i].name == name) {
+            result=  this.specs[i];
+        }
+    }
+    return result;
+};
 
 module.exports=Product;

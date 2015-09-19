@@ -9,7 +9,7 @@
     "watch-js": "babel src -d lib --experimental -w",
     "dev-server": "node lib/server/webpack",
     "server": "nodemon lib/server/server",
-    "start": "npm-run-all --parallel  watch-js dev-server server",
+    "start": "npm run build && (npm-run-all --parallel  watch-js  dev-server server)",
     "build": "npm run clean && babel src -d lib --experimental"
   },
   "repository": {

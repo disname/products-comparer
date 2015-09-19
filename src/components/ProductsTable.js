@@ -3,31 +3,28 @@
  */
 /*import React from 'react';*/
 
-var React = require('react');
-var ProductsTable = React.createClass({
-    getInitialState: function(){
-        return ({
-            rows: []
-        })
-    },
-    render: function(){
-        var data = this.state.rows;
-        if(this.props.products && this.props.products.specs){
-        this.props.products.specs.forEach(function(product) {
-                rows.push(<ProductCharRow name={product.name} text1={product.specText1} text2={product.specText2} />);
-        });}
+var React = require('react'), Row = require('./ProductCharRow'), MainRow = require('./ProductMainRow'),
+    Table=require('react-bootstrap').Table,ProductsTable;
+ ProductsTable = React.createClass({
+
+    render: function () {
+        var rows = [], mainRows = [], products = this.props.products;
+        if (products && products.specs) {
+            mainRows.push(<MainRow product1={products.product1} product2={products.product2}/>);
+            this.props.products.specs.forEach(function (spec) {
+                rows.push(<Row name={spec.name} text1={spec.specText1} text2={spec.specText2}/>);
+            });
+        }
         return (
-            <table>
+            <Table striped  condensed hover>
                 <thead>
-                <tr>
-                    <th>Specs</th>
-                    <th>Product1</th>
-                    <th>Product2</th>
-                </tr>
+                {mainRows}
                 </thead>
-                <tbody>{data}</tbody>
-            </table>
+                <tbody>
+                {rows}
+                </tbody>
+            </Table>
         );
     }
 });
-module.exports=ProductsTable;
+module.exports = ProductsTable;

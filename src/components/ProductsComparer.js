@@ -1,29 +1,22 @@
-/*
- import React from 'react/addons';
- import ProductsTable from './ProductsTable';
- import ProductComparerBar from './ProductComparerBar';
- class ProductsComparer extends React.Component {
- render() {
- return (<div> <ProductComparerBar /> <ProductsTable /> </div>);
- }
- }
-
- export default ProductsComparer;*/
-
-var React = require('react');
-/*require('../../public/styles/bootstrap.css');*/
-var ProductsTable = require('./ProductsTable');
-var Grid = require('react-bootstrap').Grid;
-var Row = require('react-bootstrap').Row;
-var ProductComparerBar = require('./ProductComparerBar');
-var ProductsComparer = React.createClass({
-    tabledata: {},
+var React = require('react'),
+    ProductsTable = require('./ProductsTable'),
+    Grid = require('react-bootstrap').Grid,
+    Row = require('react-bootstrap').Row,
+    ProductComparerBar = require('./ProductComparerBar'),ProductsComparer;
+ ProductsComparer = React.createClass({
+    getInitialState:function(){
+      return {tableData:{}}
+    },
     onDataRecieved: function (data) {
-        this.tabledata = data;
+        this.setState({tableData : data});
     },
     render: function () {
-        return (<Grid justified> <Row><ProductComparerBar callbackParent={this.onDataRecieved}/>
-            <ProductsTable products={this.tabledata}/> </Row></Grid>);
+        return (<Grid justified>
+            <Row>
+            <ProductComparerBar callbackParent={this.onDataRecieved}/>
+            <ProductsTable ref="productTable" products={this.state.tableData}/>
+        </Row>
+        </Grid>);
     }
 });
 module.exports = ProductsComparer;

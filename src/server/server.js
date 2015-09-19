@@ -12,16 +12,22 @@ import q from 'q';
 const app = express();
 const jsonParser = bodyParser.json();
 var processor, allowCrossDomain, urls;
-allowCrossDomain = function (req, res, next) {
+app.set('views', './views');
+app.set('view engine', 'jade');
+app.use(express.static(__dirname + '/public'));
+/*allowCrossDomain = function (req, res, next) {
     res.header('Access-Control-Allow-Origin', "*");
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.header('Access-Control-Allow-Headers', 'Origin,Content-Type, Accept,X-Requested-With');
     next();
 };
-app.use(allowCrossDomain);
-app.use(express.static(__dirname + '/public'));
-app.set('views', './views');
-app.set('view engine', 'jade');
+app.use(allowCrossDomain);*/
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 app.get('/', function (req, res) {
     Router.run(routes, req.url, Handler => {
         let content = React.renderToString(<Handler />);

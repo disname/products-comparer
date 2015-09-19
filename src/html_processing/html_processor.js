@@ -2,72 +2,43 @@
  * Created by s_vinnik on 17.09.2015.
  */
 
-var q = require('q'), loader = require('./loader'),
-    htmlParser = require('./parser'), parser, loaderPromise1, loaderPromise2, HtmlProcessor = function () {
-    }, primeProduct, notPrimeProduct, comparedProductsDefer, comparedProducts = {};
-
-Array.prototype.getUnique = function () {
-    var u = {}, a = [];
-    for (var i = 0, l = this.length; i < l; ++i) {
-        if (u.hasOwnProperty(this[i])) {
-            continue;
-        }
-        a.push(this[i]);
-        u[this[i]] = 1;
-    }
-    return a;
+var q = require('q'), loader = require('./loader'), spec = require('./models/spec'),
+    htmlParser = require('./parser'), HtmlProcessor;
+HtmlProcessor = function () {
 };
-function findByName(source, name) {
-    for (var i = 0; i < source.length; i++) {
-        if (source[i].name == name) {
-            return source[i];
-        }
+
+function concatProducts(product1, product2, callback) {
+    var primeProduct, notPrimeProduct, comparedProducts,current, current2,primeLength ;
+    comparedProducts = {product1 : product1,product2 : product2,specs:[]};
+    if (product1.specs.length > product2.specs.length) {
+        primeProduct = product1;
+        notPrimeProduct = product2;
     }
+    else {
+        primeProduct = product2;
+        notPrimeProduct = product1;
+    }
+    primeLength = primeProduct.specs.length;
+    for (var j = 0; j < primeLength; j++) {
+        current = primeProduct.specs[j];
+        current2 = notPrimeProduct.findByName(current.name);
+        comparedProducts.specs.push(new spec(current.name, current.specText1, current2 ?current2.specText1:''));
+    }
+    callback(comparedProducts);
 }
+
 HtmlProcessor.prototype.processPages = function (urls) {
+    var comparedProductsDefer, loaderPromise1, loaderPromise2, parser = new htmlParser();
+
     comparedProductsDefer = q.defer();
-    var concatProducts = function (product1, product2,callback) {
-        comparedProducts.product1 = product1;
-        comparedProducts.product2 = product2;
-        comparedProducts.specs = [];
-
-        if (product1.specs.length > product2.specs.length) {
-            primeProduct = product1;
-            notPrimeProduct = product2;
-        }
-        else {
-            primeProduct = product2;
-            notPrimeProduct = product1;
-        }
-
-        var primeLength = primeProduct.specs.length, current, current2;
-        for (var j = 0; j < primeLength; j++) {
-            current = primeProduct.specs[j];
-            current2 = findByName(notPrimeProduct.specs, current.name);
-
-                comparedProducts.specs.push({
-                    name: current.name,
-                    text1:current.text,
-                    text2: current2.text
-                });
-
-        }
-        callback(comparedProducts)
-    };
-
-
     loaderPromise1 = (new loader()).load(urls[0]);
     loaderPromise2 = (new loader()).load(urls[1]);
-    parser = new htmlParser();
 
     q.all([loaderPromise1, loaderPromise2]).spread(function (page1, page2) {
         q.all([parser.parsePage(page1[1]), parser.parsePage(page2[1])]).spread(function (product1, product2) {
-            concatProducts(product1, product2,function(data){
-                console.log('called');
-                console.log(comparedProductsDefer);
+            concatProducts(product1, product2, function (data) {
                 comparedProductsDefer.resolve(data);
             });
-
         });
     }).fail(function (err) {
         console.error(err);
