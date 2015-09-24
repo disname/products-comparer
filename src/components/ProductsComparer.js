@@ -1,21 +1,22 @@
-var React = require('react'),
-    ProductsTable = require('./ProductsTable'),
-    Grid = require('react-bootstrap').Grid,
-    Row = require('react-bootstrap').Row,
-    ProductComparerBar = require('./ProductComparerBar'),ProductsComparer;
- ProductsComparer = React.createClass({
-    getInitialState:function(){
-      return {tableData:{}}
+import React from 'react';
+import ProductsTable from './ProductsTable';
+import { Grid } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
+import ProductComparerBar from './ProductComparerBar';
+
+let ProductsComparer = React.createClass({
+    getInitialState: function () {
+        return {tableData: {}}
     },
     onDataRecieved: function (data) {
-        this.setState({tableData : data});
+        this.setState({tableData: data});
     },
     render: function () {
         return (<Grid justified>
             <Row>
-            <ProductComparerBar callbackParent={this.onDataRecieved}/>
-            <ProductsTable ref="productTable" products={this.state.tableData}/>
-        </Row>
+                <ProductComparerBar callbackParent={this.onDataRecieved}/>
+                <ProductsTable ref="productTable" products={this.state.tableData}/>
+            </Row>
         </Grid>);
     }
 });

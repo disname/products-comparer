@@ -1,7 +1,9 @@
 /**
  * Created by s_vinnik on 17.09.2015.
  */
-var request = require('request'), q = require('q'), Utils = function () {
+import request from 'request';
+import q from'q';
+var Utils = function () {
 };
 
 Utils.prototype.request = function (url, json) {

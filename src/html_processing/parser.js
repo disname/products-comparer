@@ -16,7 +16,6 @@ HtmlParser.prototype.parsePage = function (page) {
     product.img_url = $('.product-image-container img').attr('src');
     $('div.description-detail ul.simpleList li').map(function (i, el) {
         if (cheerio(this).text().indexOf('description') == -1) {
-
             spec_name = cheerio(this).contents().filter(function () {
                 return this.type === 'text';
             }).text().replace(/\s+/g, ' ').replace(/(\r\n|\n|\r)/gm, "").trim();

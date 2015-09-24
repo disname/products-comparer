@@ -9,49 +9,57 @@ function validateURl(url) {
     return false;
 }
 
-var React = require('react'), Input = require('react-bootstrap').Input,UrlInput;
+import React from 'react';
+import { Input } from 'react-bootstrap';
 
-    UrlInput = React.createClass({
+var UrlInput = React.createClass({
 
-        getInitialState: function () {
-            return {
-                value: '',
-                isValid:false
-            };
-        },
-        validationState() {
-            var state='error';
-            if (validateURl(this.state.value) ) {this.state.isValid=true; state= 'success';}
-            else  {this.state.isValid=false;};
-            if (this.props.onChange) {
-                this.props.onChange(this.state.value,this.state.isValid);
-            }
-            return state;
-        },
-        _entryChanged: function (e) {
-            this.setState({value: this.refs.input.getValue()});
-            console.log(this.refs.input.getValue());
-
-        },
-
-        render: function () {
-            return (
-                <Input type="text"
-                       bsSize="medium"
-                       id={this.props.id}
-                       className={this.props.className}
-                       onChange={this._entryChanged}
-                       value={this.state.value}
-                       placeholder="Enter product page url"
-                       label="First product url"
-                       help="Validation is based on url regexp."
-                       bsStyle={this.validationState()}
-                       hasFeedback
-                       groupClassName="group-class"
-                       labelClassName="label-class"
-                       ref="input"
-                    />
-            )
+    getInitialState: function () {
+        return {
+            value: '',
+            isValid: false
+        };
+    },
+    validationState() {
+        var state = 'error';
+        if (validateURl(this.state.value)) {
+            console.log(validateURl(this.state.value));
+            this.state.isValid = true;
+            state = 'success';
         }
-    });
+        else {
+            console.log(validateURl(this.state.value));
+            this.state.isValid = false;
+        }
+        if (this.props.onChange) {
+            this.props.onChange(this.state.value, this.state.isValid);
+        }
+        return state;
+    },
+    _entryChanged: function (e) {
+        this.setState({value: this.refs.input.getValue()});
+        console.log(this.refs.input.getValue());
+
+    },
+
+    render: function () {
+        return (
+            <Input type="text"
+                   bsSize="medium"
+                   id={this.props.id}
+                   className={this.props.className}
+                   onChange={this._entryChanged}
+                   value={this.state.value}
+                   placeholder="Enter product page url"
+                   label={this.props.product_number}
+                   help="Validation is based on url regexp."
+                   bsStyle={this.validationState()}
+                   hasFeedback
+                   groupClassName="group-class"
+                   labelClassName="label-class"
+                   ref="input"
+                />
+        )
+    }
+});
 module.exports = UrlInput;

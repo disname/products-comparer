@@ -4,14 +4,15 @@
 /**
  * Created by s_vinnik on 17.09.2015.
  */
-var Loader,utils= require('./utils');
+import Utils from './utils';
+var Loader;
 Loader = function () {
 
 };
 
 Loader.prototype.load = function (url) {
     console.log('start loading');
-    var reqUtils=new utils();
+    var reqUtils=new Utils();
     return reqUtils.request(url);
 };
 module.exports = Loader;

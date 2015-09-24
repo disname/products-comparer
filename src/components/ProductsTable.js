@@ -1,22 +1,26 @@
 /**
  * Created by dis_name_pc on 16.09.2015.
  */
-/*import React from 'react';*/
+import React from 'react';
+import SpecRow from './ProductCharRow';
+import MainRow  from'./ProductMainRow';
+import   { Table } from'react-bootstrap';
 
-var React = require('react'), Row = require('./ProductCharRow'), MainRow = require('./ProductMainRow'),
-    Table=require('react-bootstrap').Table,ProductsTable;
- ProductsTable = React.createClass({
+var ProductsTable = React.createClass({
 
     render: function () {
-        var rows = [], mainRows = [], products = this.props.products;
+        var rows, mainRows, products;
+        rows = [];
+        mainRows = [];
+        products = this.props.products;
         if (products && products.specs) {
             mainRows.push(<MainRow product1={products.product1} product2={products.product2}/>);
             this.props.products.specs.forEach(function (spec) {
-                rows.push(<Row name={spec.name} text1={spec.specText1} text2={spec.specText2}/>);
+                rows.push(<SpecRow name={spec.name} text1={spec.specText1} text2={spec.specText2}/>);
             });
         }
         return (
-            <Table striped  condensed hover>
+            <Table striped condensed hover>
                 <thead>
                 {mainRows}
                 </thead>

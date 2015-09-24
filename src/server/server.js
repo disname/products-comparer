@@ -7,22 +7,14 @@ import Router from "react-router";
 import  bodyParser from 'body-parser';
 import  request  from 'request';
 import  HtmlProcessor  from '../html_processing/html_processor';
-import routes from "../routes/core-routes";
+import routes from '../routes/core-routes';
 import q from 'q';
 const app = express();
 const jsonParser = bodyParser.json();
-var processor, allowCrossDomain, urls;
 app.set('views', './views');
 app.set('view engine', 'jade');
 app.use(express.static(__dirname + '/public'));
-/*allowCrossDomain = function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', "*");
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Origin,Content-Type, Accept,X-Requested-With');
-    next();
-};
-app.use(allowCrossDomain);*/
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
@@ -35,6 +27,7 @@ app.get('/', function (req, res) {
     });
 });
 app.post('/api/load', jsonParser, function (req, res) {
+    let processor, urls;
     processor = new HtmlProcessor();
     urls = [req.body.firstUrl, req.body.secondUrl];
     if (urls) {
@@ -47,6 +40,6 @@ app.post('/api/load', jsonParser, function (req, res) {
 });
 
 
-var server = app.listen(3000, function () {
+app.listen(3000, function () {
 
 });
